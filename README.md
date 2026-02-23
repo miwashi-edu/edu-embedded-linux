@@ -85,6 +85,6 @@ EOF
 ## Instructions
 
 ```bash
-pip install --break-system-packages
+pip install . --break-system-packages
 hello
 ```
