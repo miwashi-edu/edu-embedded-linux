@@ -1,0 +1,22 @@
+services:
+  rpi-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rpi-dev
+    hostname: rpi-dev
+    ports:
+      - "2225:22"
+    networks:
+      iotnet:
+        ipv4_address: 192.168.50.10
+    volumes:
+      - ./ws:/workspace
+      - ./pico:/pico
+    tty: true
+networks:
+  iotnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.50.0/24
