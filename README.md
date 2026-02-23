@@ -93,3 +93,10 @@ EOF
 pip install . --break-system-packages
 hello
 ```
+
+## Start over
+
+```bash
+git reset --hard
+git clean -df
+```
