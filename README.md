@@ -29,6 +29,7 @@ git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 cd ~
 mkdir ws
+cd ws
 mkdir iot
 cd iot
 git init
