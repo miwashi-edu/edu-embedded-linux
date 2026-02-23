@@ -9,7 +9,7 @@ services:
       - "2225:22"
     networks:
       iotnet:
-        ipv4_address: 192.168.50.10
+        ipv4_address: 192.168.2.10
     volumes:
       - ./ws:/workspace
       - ./pico:/pico
@@ -19,4 +19,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.50.0/24
+        - subnet: 192.168.2.0/24
