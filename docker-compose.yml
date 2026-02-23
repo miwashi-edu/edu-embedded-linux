@@ -14,9 +14,8 @@ services:
       - ./ws:/workspace
       - ./pico:/pico
     tty: true
+
 networks:
   iotnet:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.2.0/24
+    external: true
+    name: iotnet
