@@ -22,7 +22,8 @@ ssh -p 2225 dev@localhost #password dev
 ```bash
 sudo apt-get update
 sudo apt-get install curl
-source $HOME/.local/bin/env
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 curl -LsSf https://astral.sh/uv/install.sh | sh
 git config --global init.defaultBranch main
 git config --global user.name "Your Name"
