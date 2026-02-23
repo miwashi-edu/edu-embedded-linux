@@ -32,7 +32,7 @@ mkdir ws
 mkdir iot
 cd iot
 git init
-echo # iot > README.md
+echo "# iot" > README.md
 git add .
 git commit -m "Initial commit"
 ```
@@ -61,7 +61,7 @@ readme = "README.md"
 authors = [
     { name = "IoT dev", email = "iot@example.com" }
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = []
 
 [project.scripts]
