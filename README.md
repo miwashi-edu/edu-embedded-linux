@@ -22,7 +22,7 @@ ssh -p 2225 dev@localhost #password dev
 ```bash
 sudo apt-get update
 sudo apt-get install curl
-mkdir $HOME/.local/bin
+mkdir -p $HOME/.local/bin
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 curl -LsSf https://astral.sh/uv/install.sh | sh
