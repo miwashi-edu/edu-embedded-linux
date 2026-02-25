@@ -14,6 +14,7 @@ ssh -p 2225 dev@localhost #password dev
 ```bash
 cd ~
 cd ws
+cd iot
 > ./src/iot/__init__.py # Empty __init__.py
 git add .
 git commit -m "level-1"
