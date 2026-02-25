@@ -1,5 +1,11 @@
 # edu-embedded-linux
 
+> In this tutorial we use typer, more common in older system is argparse
+> and I recomment you explore same path with argparse instead.
+>
+[Typer](https://typer.tiangolo.com)  
+[Argparse](https://docs.python.org/3/library/argparse.html)
+
 ## Connect by SSH to your dev machine
 
 ```
