@@ -1,43 +1,22 @@
 # edu-embedded-linux
 
-## Reset fingerprint (if needed)
+## Connect by SSH to your dev machine
 
 ```
-ssh-keygen -R "[localhost]:2225"
-```
-
-## Connect
-
-```bash
-cd ~
-cd ws
-git clone https://github.com/miwashi-edu/edu-embedded-linux.git
-cd edu-embedded-linux
-./start-iotnet.sh # If not started already
-docker compose up -d --build
+ssh-keygen -R "[localhost]:2225" # If needing to reset when changing machine
 ssh -p 2225 dev@localhost #password dev
 ```
+
 ## Prepare (only once)
 
+> Check hello command is working, when it is then continue.
+
 ```bash
-sudo apt-get update
-sudo apt-get install curl
-mkdir -p $HOME/.local/bin
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-curl -LsSf https://astral.sh/uv/install.sh | sh
-git config --global init.defaultBranch main
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
 cd ~
-mkdir ws
 cd ws
-mkdir iot
-cd iot
-git init
-echo "# iot" > README.md
+> ./src/iot/__init__.py # Empty __init__.py
 git add .
-git commit -m "Initial commit"
+git commit -m "level-1"
 ```
 
 ## Instructions
@@ -46,52 +25,73 @@ git commit -m "Initial commit"
 cd ~
 cd ws
 cd iot
-mkdir src
-mkdir ./src/iot
-touch ./src/iot/__init__.py
+touch ./src/iot/main.py
+touch ./src/iot/__main__.py
 ```
 
+```bash
+cat > ./src/iot/main.py << EOF
+import typer
+
+app = typer.Typer()
+
+def hello() -> str:
+    return "Hello from iot!"
+
+@app.command()
+def greet(name: str = typer.Argument("World", help="Name to greet")):
+    """Greet someone by name."""
+    print(f"Hello, {name}!")
+
+@app.command()
+def version():
+    """Show the current version."""
+    print("iot version 0.2.0")
+
+if __name__ == "__main__":
+    app()
+EOF
+```
+
+```bash
+cat > ./src/iot/__main__.py << EOF
+from iot.main import app
+
+if __name__ == "__main__":
+    app()
+EOF
+```
 
 ### pyproject.toml
 
-```bash
-cat > pyproject.toml << EOF
-[project]
-name = "iot"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-authors = [
-    { name = "IoT dev", email = "iot@example.com" }
+#### Dependencies
+
+```toml
+dependencies = [
+    "typer>=0.12.0"
 ]
-requires-python = ">=3.11"
-dependencies = []
+```
 
+#### Scripts
+
+```toml
 [project.scripts]
-hello = "iot:hello"
-
-[tool.uv.sources]
-
-[build-system]
-requires = ["uv_build>=0.10.4,<0.11.0"]
-build-backend = "uv_build"
-EOF
+iot = "iot.main:app"
 ```
 
-### init.py
-
-```bash
-cat > ./src/iot/__init__.py << EOF
-def hello() -> str:
-    return "Hello from iot!"
-EOF
-```
-
-## Instructions
+### Install it
 
 ```bash
 pip install . --break-system-packages
-hello
+```
+
+### Test it
+
+```
+iot --help
+iot greet
+iot greet Alice
+iot version
 ```
 
 ## Start over
