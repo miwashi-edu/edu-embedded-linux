@@ -9,35 +9,15 @@ ssh-keygen -R "[localhost]:2225"
 ## Connect
 
 ```bash
-cd ~
-cd ws
-git clone https://github.com/miwashi-edu/edu-embedded-linux.git
-cd edu-embedded-linux
-./start-iotnet.sh # If not started already
-docker compose up -d --build
 ssh -p 2225 dev@localhost #password dev
 ```
 ## Prepare (only once)
 
 ```bash
-sudo apt-get update
-sudo apt-get install curl
-mkdir -p $HOME/.local/bin
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-curl -LsSf https://astral.sh/uv/install.sh | sh
-git config --global init.defaultBranch main
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
-cd ~
-mkdir ws
 cd ws
-mkdir iot
-cd iot
-git init
-echo "# iot" > README.md
+cd c-tooling
 git add .
-git commit -m "Initial commit"
+git commit -m "level-2"
 ```
 
 ## Instructions
@@ -45,45 +25,65 @@ git commit -m "Initial commit"
 ```bash
 cd ~
 cd ws
-cd iot
-mkdir src
-mkdir ./src/iot
-touch ./src/iot/__init__.py
+cd c-tooling
+mkdir cmake
+touch ./cmake/deps.cmake
 ```
 
 
-### pyproject.toml
+### depts.cmake
 
 ```bash
-cat > pyproject.toml << EOF
-[project]
-name = "iot"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-authors = [
-    { name = "IoT dev", email = "iot@example.com" }
-]
-requires-python = ">=3.11"
-dependencies = []
+cat > ./cmake/depts.cmake << EOF
+include(FetchContent)
 
-[project.scripts]
-hello = "iot:hello"
+# ---- argparse (C library) ----
+FetchContent_Declare(
+  argparse
+  GIT_REPOSITORY https://github.com/cofyc/argparse.git
+  GIT_TAG        v1.1
+)
 
-[tool.uv.sources]
-
-[build-system]
-requires = ["uv_build>=0.10.4,<0.11.0"]
-build-backend = "uv_build"
+FetchContent_MakeAvailable(argparse)
 EOF
 ```
 
-### init.py
+### CMakeLists.txt
 
 ```bash
-cat > ./src/iot/__init__.py << EOF
-def hello() -> str:
-    return "Hello from iot!"
+cat > .CMakeLists.txt << EOF
+cmake_minimum_required(VERSION 3.15)
+project(c-tooling LANGUAGES C)
+
+include(GNUInstallDirs)
+
+list(APPEND CMAKE_MODULE_PATH "\${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(deps)
+
+add_subdirectory(modules/hello)
+add_subdirectory(modules/creetings)
+
+add_executable(chello src/main.c)
+target_link_libraries(chello PRIVATE hello)
+
+install(TARGETS chello creetings
+  RUNTIME DESTINATION \${CMAKE_INSTALL_BINDIR}
+)
+EOF
+```
+
+### creetings/CMakeLists.txt
+
+```bash
+cat > ./modules/creetings/CMakeLists.txt << EOF
+add_executable(creetings
+    src/creetings.c
+)
+
+target_link_libraries(creetings
+    PRIVATE
+        argparse
+)
 EOF
 ```
 
