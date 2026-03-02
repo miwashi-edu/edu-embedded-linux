@@ -87,19 +87,6 @@ int main(int argc, char **argv) {
 EOF
 ```
 
-### hello.h
-
-```bash
-cat > ./modules/hello/include/hello.h << EOF
-#ifndef CTOOLING_HELLO_H
-#define CTOOLING_HELLO_H
-
-void hello(void);
-
-#endif
-EOF
-```
-
 ## Instructions
 
 ```bash
