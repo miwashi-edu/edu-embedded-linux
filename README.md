@@ -34,7 +34,7 @@ touch ./cmake/deps.cmake
 ### depts.cmake
 
 ```bash
-cat > ./cmake/depts.cmake << EOF
+cat > ./cmake/deps.cmake << EOF
 include(FetchContent)
 
 # ---- argparse (C library) ----
