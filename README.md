@@ -66,7 +66,7 @@ EOF
 > It is there to `escape` the $
 
 ```bash
-cat > ./CMakeLists.txt << EOF
+cat > ./modules/hello/CMakeLists.txt << EOF
 add_library(hello STATIC
     src/hello.c
 )
