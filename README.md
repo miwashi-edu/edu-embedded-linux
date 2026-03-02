@@ -99,7 +99,7 @@ EOF
 ```bash
 cat > ./modules/hello/src/hello.c << EOF
 #include <stdio.h>
-#include "ctooling/hello.h"
+#include "hello.h"
 
 void hello(void) {
     printf("Hello, world!\n");
