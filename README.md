@@ -43,6 +43,9 @@ touch ./include/ctooling/hello.h
 
 ### CMakeLists.txt
 
+> When you type the file, note that the \ is not needed
+> It is there to `escape` the $
+
 ```bash
 cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.15)
