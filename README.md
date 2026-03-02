@@ -32,7 +32,7 @@ git commit -m "Initial commit"
 ```bash
 cd ~
 cd ws
-cd iot
+cd c-tooling
 mkdir src
 mkdir include
 mkdir include/ctooling
