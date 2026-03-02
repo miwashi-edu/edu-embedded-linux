@@ -27,7 +27,6 @@ git commit -m "Level-1"
 cd ~
 cd ws
 cd c-tooling
-mkdir src
 mkdir -p modules/creetings/{src,include}
 touch ./src/main.c
 touch ./modules/creeting/src/creetings.c
