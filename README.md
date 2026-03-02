@@ -73,7 +73,7 @@ EOF
 ### main.c
 
 ```bash
-cat > main.c << EOF
+cat > ./src/main.c << EOF
 #include <ctooling/hello.h>
 
 int main(void) {
