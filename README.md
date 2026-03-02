@@ -34,11 +34,10 @@ cd ~
 cd ws
 cd c-tooling
 mkdir src
-mkdir include
-mkdir include/ctooling
+mkdir -p modules/hello/{src,include}
 touch ./src/main.c
-touch ./src/hello.c
-touch ./include/ctooling/hello.h
+touch ./modules/hello/src/hello.c
+touch ./modules/hello/include/hello.h
 ```
 
 ### CMakeLists.txt
@@ -49,25 +48,32 @@ touch ./include/ctooling/hello.h
 ```bash
 cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.15)
-
 project(c-tooling LANGUAGES C)
 
-add_library(ctooling
-    src/hello.c
-)
+add_subdirectory(modules/hello)
 
-target_include_directories(ctooling
-    PUBLIC
-        \${PROJECT_SOURCE_DIR}/include
-)
-
-add_executable(ctooling_app
+add_executable(chello
     src/main.c
 )
 
-target_link_libraries(ctooling_app
-    PRIVATE
-        ctooling
+target_link_libraries(chello PRIVATE hello)
+EOF
+```
+
+### modules/hello/CMakeLists.txt
+
+> When you type the file, note that the \ is not needed
+> It is there to `escape` the $
+
+```bash
+cat > ./CMakeLists.txt << EOF
+add_library(hello STATIC
+    src/hello.c
+)
+
+target_include_directories(hello
+    PUBLIC
+        \${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 EOF
 ```
@@ -88,7 +94,7 @@ EOF
 ### hello.c
 
 ```bash
-cat > ./src/hello.c << EOF
+cat > ./modules/hello/src/hello.c << EOF
 #include <stdio.h>
 #include "ctooling/hello.h"
 
@@ -101,7 +107,7 @@ EOF
 ### hello.h
 
 ```bash
-cat > ./include/ctooling/hello.h << EOF
+cat > ./modules/hello/include/hello.h << EOF
 #ifndef CTOOLING_HELLO_H
 #define CTOOLING_HELLO_H
 
