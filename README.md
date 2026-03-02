@@ -73,7 +73,7 @@ EOF
 
 ```bash
 cat > ./src/main.c << EOF
-#include <ctooling/hello.h>
+#include "ctooling/hello.h"
 
 int main(void) {
     hello();
@@ -87,7 +87,7 @@ EOF
 ```bash
 cat > ./src/hello.c << EOF
 #include <stdio.h>
-#include <ctooling/hello.h>
+#include "ctooling/hello.h"
 
 void hello(void) {
     printf("Hello, world!\n");
