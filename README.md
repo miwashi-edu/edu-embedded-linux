@@ -9,35 +9,16 @@ ssh-keygen -R "[localhost]:2225"
 ## Connect
 
 ```bash
-cd ~
-cd ws
-git clone https://github.com/miwashi-edu/edu-embedded-linux.git
-cd edu-embedded-linux
-./start-iotnet.sh # If not started already
-docker compose up -d --build
 ssh -p 2225 dev@localhost #password dev
 ```
 ## Prepare (only once)
 
 ```bash
-sudo apt-get update
-sudo apt-get install curl
-mkdir -p $HOME/.local/bin
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-curl -LsSf https://astral.sh/uv/install.sh | sh
-git config --global init.defaultBranch main
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
 cd ~
-mkdir ws
 cd ws
-mkdir iot
-cd iot
-git init
-echo "# iot" > README.md
+cd c-tooling
 git add .
-git commit -m "Initial commit"
+git commit -m "Level-1"
 ```
 
 ## Instructions
@@ -45,53 +26,102 @@ git commit -m "Initial commit"
 ```bash
 cd ~
 cd ws
-cd iot
+cd c-tooling
 mkdir src
-mkdir ./src/iot
-touch ./src/iot/__init__.py
+mkdir -p modules/creetings/{src,include}
+touch ./src/main.c
+touch ./modules/creeting/src/creetings.c
+touch ./modules/creetings/include/creetings.h
 ```
 
+### CMakeLists.txt
 
-### pyproject.toml
+> When you type the file, note that the \ is not needed
+> It is there to `escape` the $
 
 ```bash
-cat > pyproject.toml << EOF
-[project]
-name = "iot"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-authors = [
-    { name = "IoT dev", email = "iot@example.com" }
-]
-requires-python = ">=3.11"
-dependencies = []
+cat > ./CMakeLists.txt << EOF
+cmake_minimum_required(VERSION 3.15)
+project(c-tooling LANGUAGES C)
 
-[project.scripts]
-hello = "iot:hello"
+include(GNUInstallDirs)
 
-[tool.uv.sources]
+add_subdirectory(modules/hello)
+add_subdirectory(modules/creetings)
 
-[build-system]
-requires = ["uv_build>=0.10.4,<0.11.0"]
-build-backend = "uv_build"
+add_executable(chello src/main.c)
+target_link_libraries(chello PRIVATE hello)
+
+install(TARGETS chello creetings
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
 EOF
 ```
 
-### init.py
+### modules/creetings/CMakeLists.txt
+
+> When you type the file, note that the \ is not needed
+> It is there to `escape` the $
 
 ```bash
-cat > ./src/iot/__init__.py << EOF
-def hello() -> str:
-    return "Hello from iot!"
+cat > ./modules/hello/CMakeLists.txt << EOF
+add_executable(creetings
+    src/creetings.c
+)
+EOF
+```
+
+### main.c
+
+```bash
+cat > ./src/main.c << EOF
+#include "hello.h"
+
+int main(void) {
+    hello();
+    return 0;
+}
+EOF
+```
+
+### hello.c
+
+```bash
+cat > ./modules/creetings/src/creetings.c << EOF
+#include <stdio.h>
+
+int main(int argc, char **argv) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <name>\n", argv[0]);
+        return 2;
+    }
+
+    printf("Creetings, %s!\n", argv[1]);
+    return 0;
+}
+EOF
+```
+
+### hello.h
+
+```bash
+cat > ./modules/hello/include/hello.h << EOF
+#ifndef CTOOLING_HELLO_H
+#define CTOOLING_HELLO_H
+
+void hello(void);
+
+#endif
 EOF
 ```
 
 ## Instructions
 
 ```bash
-pip install . --break-system-packages
-hello
+rm -rf build
+cmake -B build
+cmake --build build
+sudo cmake --install build
 ```
 
 ## Start over
