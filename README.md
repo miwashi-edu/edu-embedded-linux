@@ -42,10 +42,10 @@ touch ./src/hello.c
 touch ./include/ctooling/hello.h
 ```
 
-### CMakeList.txt
+### CMakeLists.txt
 
 ```bash
-cat > ./CMakeList.txt << EOF
+cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.15)
 
 project(c-tooling LANGUAGES C)
