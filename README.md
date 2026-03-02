@@ -55,7 +55,7 @@ add_library(ctooling
 
 target_include_directories(ctooling
     PUBLIC
-        ${PROJECT_SOURCE_DIR}/include
+        \${PROJECT_SOURCE_DIR}/include
 )
 
 add_executable(ctooling_app
