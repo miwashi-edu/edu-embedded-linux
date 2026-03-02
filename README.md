@@ -9,33 +9,20 @@ ssh-keygen -R "[localhost]:2225"
 ## Connect
 
 ```bash
-cd ~
-cd ws
-git clone https://github.com/miwashi-edu/edu-embedded-linux.git
-cd edu-embedded-linux
-./start-iotnet.sh # If not started already
-docker compose up -d --build
 ssh -p 2225 dev@localhost #password dev
 ```
 ## Prepare (only once)
 
 ```bash
-sudo apt-get update
-sudo apt-get install curl
-mkdir -p $HOME/.local/bin
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-curl -LsSf https://astral.sh/uv/install.sh | sh
-git config --global init.defaultBranch main
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
+sudo apt update
+sudo apt install cmake
 cd ~
 mkdir ws
 cd ws
-mkdir iot
-cd iot
+mkdir c-tooling
+cd c-tooling
 git init
-echo "# iot" > README.md
+echo "# c-tooling" > README.md
 git add .
 git commit -m "Initial commit"
 ```
@@ -47,43 +34,78 @@ cd ~
 cd ws
 cd iot
 mkdir src
-mkdir ./src/iot
-touch ./src/iot/__init__.py
+mkdir include
+mkdir include/ctooling
+mkdir build
+touch ./src/main.c
+touch ./src/hello.c
+touch ./include/ctooling/hello.h
 ```
 
-
-### pyproject.toml
+### CMakeList.txt
 
 ```bash
-cat > pyproject.toml << EOF
-[project]
-name = "iot"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-authors = [
-    { name = "IoT dev", email = "iot@example.com" }
-]
-requires-python = ">=3.11"
-dependencies = []
+cat > ./CMakeList.txt << EOF
+cmake_minimum_required(VERSION 3.15)
 
-[project.scripts]
-hello = "iot:hello"
+project(c-tooling LANGUAGES C)
 
-[tool.uv.sources]
+add_library(ctooling
+    src/hello.c
+)
 
-[build-system]
-requires = ["uv_build>=0.10.4,<0.11.0"]
-build-backend = "uv_build"
+target_include_directories(ctooling
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+add_executable(ctooling_app
+    src/main.c
+)
+
+target_link_libraries(ctooling_app
+    PRIVATE
+        ctooling
+)
 EOF
 ```
 
-### init.py
+### main.c
 
 ```bash
-cat > ./src/iot/__init__.py << EOF
-def hello() -> str:
-    return "Hello from iot!"
+cat > main.c << EOF
+#include <ctooling/hello.h>
+
+int main(void) {
+    hello();
+    return 0;
+}
+EOF
+```
+
+### hello.c
+
+```bash
+cat > ./src/hello.c << EOF
+#include <stdio.h>
+#include <ctooling/hello.h>
+
+void hello(void) {
+    printf("Hello, world!\n");
+}
+EOF
+```
+
+### hello.h
+
+```bash
+cat > ./include/ctooling/hello.h << EOF
+#ifndef CTOOLING_HELLO_H
+#define CTOOLING_HELLO_H
+
+void hello(void);
+
+#endif
 EOF
 ```
 
