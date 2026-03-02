@@ -51,7 +51,7 @@ add_executable(chello src/main.c)
 target_link_libraries(chello PRIVATE hello)
 
 install(TARGETS chello creetings
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  RUNTIME DESTINATION \${CMAKE_INSTALL_BINDIR}
 )
 EOF
 ```
