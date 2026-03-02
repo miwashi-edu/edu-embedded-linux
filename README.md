@@ -69,20 +69,7 @@ add_executable(creetings
 EOF
 ```
 
-### main.c
-
-```bash
-cat > ./src/main.c << EOF
-#include "hello.h"
-
-int main(void) {
-    hello();
-    return 0;
-}
-EOF
-```
-
-### hello.c
+### creetings.c
 
 ```bash
 cat > ./modules/creetings/src/creetings.c << EOF
