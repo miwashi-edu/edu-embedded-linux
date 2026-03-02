@@ -50,13 +50,16 @@ cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.15)
 project(c-tooling LANGUAGES C)
 
+include(GNUInstallDirs)
+
 add_subdirectory(modules/hello)
 
-add_executable(chello
-    src/main.c
-)
-
+add_executable(chello src/main.c)
 target_link_libraries(chello PRIVATE hello)
+
+install(TARGETS chello
+  RUNTIME DESTINATION \${CMAKE_INSTALL_BINDIR}
+)
 EOF
 ```
 
