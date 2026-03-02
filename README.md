@@ -82,7 +82,7 @@ EOF
 
 ```bash
 cat > ./src/main.c << EOF
-#include "ctooling/hello.h"
+#include "hello.h"
 
 int main(void) {
     hello();
