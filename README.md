@@ -63,7 +63,7 @@ EOF
 > It is there to `escape` the $
 
 ```bash
-cat > ./modules/hello/CMakeLists.txt << EOF
+cat > ./modules/creetings/CMakeLists.txt << EOF
 add_executable(creetings
     src/creetings.c
 )
