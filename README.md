@@ -36,7 +36,6 @@ cd c-tooling
 mkdir src
 mkdir include
 mkdir include/ctooling
-mkdir build
 touch ./src/main.c
 touch ./src/hello.c
 touch ./include/ctooling/hello.h
@@ -112,8 +111,9 @@ EOF
 ## Instructions
 
 ```bash
-pip install . --break-system-packages
-hello
+rm -rf build
+cmake -B build
+cmake --build build
 ```
 
 ## Start over
