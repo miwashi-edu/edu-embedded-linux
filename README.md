@@ -28,7 +28,6 @@ cd ~
 cd ws
 cd c-tooling
 mkdir -p modules/creetings/{src,include}
-touch ./src/main.c
 touch ./modules/creeting/src/creetings.c
 touch ./modules/creetings/include/creetings.h
 ```
