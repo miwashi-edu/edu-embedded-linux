@@ -49,7 +49,7 @@ git config --global user.name "you name"
 git config --global user.email "user@example.com"
 cd ~
 cd ws
-cd iot
+cd net
 git init
 git add .
 git commit -m "initial commit"
@@ -74,8 +74,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```bash
 cd ~
 cd ws
-cd iot
-uv run iot scan 192.168.1.0/27 2>/dev/null
+cd net
+uv run net scan 192.168.1.0/27 2>/dev/null
 ```
 
 ## Instructions
