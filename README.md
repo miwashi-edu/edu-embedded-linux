@@ -2,7 +2,7 @@
 
 > Same as level-5, but in C. c-tooling added to ws.
 
-## If you ddon't have c-tooling
+## If you don't have c-tooling project
 
 ```bash
 cd ws
