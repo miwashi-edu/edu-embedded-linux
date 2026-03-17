@@ -1,6 +1,6 @@
 # edu-embedded-linux
 
-> Task, given `net scan`. Add `net mac`, `net ispi`
+> Task, given `net scan`.
 > Use net scan to scan all IP that respons to ping on a net mask (ie. 192.168.0.0/27)
 > Find the mac adress of every IP adress
 > Determine if it is a raspberry py from the mac adress.
